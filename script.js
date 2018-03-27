@@ -76,6 +76,8 @@ const selectTD = function() {
       td1Projects = iOSProjects;
       td1 = "iOS";
     }
+    this.removeEventListener("click", selectTD);
+    this.classList.add("selected");
   } else if (td2 == undefined) {
     if (chooseButtons.indexOf(this) === 0) {
       td2Courses = frontEndCourses;
@@ -96,9 +98,15 @@ const selectTD = function() {
     }
     exploreButton.classList.remove("transparent");
     exploreButton.addEventListener("click", runComparisons);
+    this.classList.add("selected");
+    for (button of chooseButtons) {
+    button.removeEventListener("click", selectTD);
+    }
+    let disabledButtons = document.querySelectorAll("button.td:not(.selected)");
+    for (button of disabledButtons) {
+    button.classList.add("transparent");
+    }
   }
-  this.classList.add("selected");
-  this.removeEventListener("click", selectTD);
 }
 
 // --- work out the comparison between techdegrees
@@ -241,7 +249,7 @@ const runComparisons = () => {
   makeTd2Projects();
   compareTd1Td2();
   addListItems();
-  exploreButton.addEventListener("click",runComparisons);
+  exploreButton.removeEventListener("click",runComparisons);
   main.classList.remove("hide");
   main.scrollIntoView({behavior: "smooth", block: "start"});
 }
@@ -256,12 +264,12 @@ const reset = () => {
   for (button of chooseButtons) {
     button.addEventListener("click", selectTD);
     button.classList.remove("selected");
+    button.classList.remove("disabled");
   }
   td1Courses = td1Projects = td1 = td2Courses = td2Projects = td2 = undefined;
   main.classList.add("hide");
   header.scrollIntoView({behavior: "smooth", block: "start"});
   exploreButton.classList.add("transparent");
-  courseTypeButton.addEventListener("click", showCourseType);
 }
 
 // --- show extra info in UI
