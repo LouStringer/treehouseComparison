@@ -16,6 +16,7 @@
 //   console.log(projectInfo);
 // })();
 
+// techdegree info from treehouse
 // ----- front end -----
 let frontEndCourses = ["Introduction to HTML and CSS", "Course", "HTML Basics", "Course", "Share Your Techdegree Projects With GitHub Desktop", "Workshop", "CSS Basics", "Course", "Debugging CSS with Chrome DevTools", "Workshop", "CSS Layout Basics", "Course", "Responsive Images", "Course", "HTML Tables", "Course", "HTML Forms", "Course", "CSS Selectors", "Course", "CSS Flexbox Layout", "Course", "Introducing JavaScript", "Course", "JavaScript Basics", "Course", "JavaScript Loops, Arrays and Objects", "Course", "jQuery Basics", "Course", "Using jQuery Plugins", "Course", "Sass Basics", "Course", "CSS to Sass", "Course", "Modular CSS with Sass", "Course", "Build a Responsive Navigation with Flexbox", "Workshop", "Building Your Techdegree Resume", "Course", "Defining Variables with let and const", "Workshop", "Introducing Arrow Function Syntax", "Workshop", "Exploring JavaScript Conditionals", "Workshop", "JavaScript and the DOM", "Course", "HTML Video and Audio", "Course", "Create a Media Player with MediaElement.js", "Workshop", "DOM Scripting By Example", "Course", "CSS Transitions and Transforms", "Course", "SVG Basics", "Course", "Animating SVG with CSS", "Course", "SVG Workflow and Tools", "Workshop", "GitHub Basics", "Course", "Create Tooltips with CSS", "Workshop", "Using Local Storage with JavaScript", "Workshop", "Introducing Template Literals", "Workshop", "Debugging JavaScript in the Browser", "Workshop", "AJAX Basics", "Course", "Callback Functions in JavaScript", "Course", "Create a Fullscreen Slider with CSS", "Workshop", "React Basics", "Course", "Using Create React App", "Workshop", "React by Example", "Course", "React Router 4 Basics ", "Course", "Data Fetching in React ", "Workshop", "Web Accessibility Compliance", "Course", "Hosting a Website with GitHub Pages", "Workshop"];
 
@@ -36,11 +37,10 @@ let iOSCourses = ["Swift Basics", "Course", "Swift Collections and Control Flow"
 
 let iOSProjects = ["Soccer League Coordinator in Swift", "Build a tool to help a soccer coach divide 18 players into three well-balanced teams. You'll apply your knowledge of important Swift data structures like arrays and dictionaries to get it done.", "Enhancing a Quiz App in iOS", "As a developer, one of things you need to get comfortable with is working with code that other people have written. Improve an existing IOS quiz app to allow for more questions, improve the user interface, and customize the content to match your own interests. ", "Bout Time", "Games are one of the most popular types of mobile apps. Build an iOS game, called 'Bout Time, which challenges players to put historical events in the correct chronological order. You'll write all of the code, create the user interface, and even decide on the topic, theme and questions for the game.", "Amusement Park Pass Generator: Part 1", "Tackle a real-world business problem by helping an amusement park generate passes for various types of visitors. Project 4 is the Part 1 of a two-part project. In this project, you'll build the important behind-the-scenes programming for this app. In Part 2, you’ll add the user interface and expand the logic to accommodate more types of visitors.", "Amusement Park Pass Generator: Part 2", "In this project, you’ll build the user interface of an app that creates personalized passes for a variety of amusement park visitors  and test if a set of  business rules are enforced when the passes are swiped at various park locations.", "The API Awakens", "Harness the power of a third-party API (application programming interface) to provide data for an iOS app. Using tools like networking, concurrency, and JSON, you will build an app that retrieves information about people, vehicles, and starships from Star Wars by connecting with the Star Wars API.", "Movie Night for iOS", "Build an iOS app to help two friends select a movie to watch. The app will collect movie criteria from the two users and access the Movie Database API to provide a movie recommendation. You'll develop your own algorithm for choosing the movie based on the information you collect from the two users.", "Build a Full Objective-C App", "Being able to read and write both Swift and Objective-C code is important for iOS developers. Practice your new skills by building an app written entirely in Objective-C. The app will make use of features and constructs such as UICollectionViews, asynchronous networking, gestures, and transitions. It is a good opportunity to learn this legendary and widely used predecessor of Swift.", "Debug and Extend a Large Codebase", "Fix and improve a complex app written entirely in Objective-C. Practice skills which professional iOS developers use everyday like: debugging applications, deciphering unfamiliar code, and trying out new objects and frameworks. ", "Diary App", "Good apps usually have good data. Use the Core Data framework to create a diary app in Swift. Core Data is used to manage the relationships between data in classes and structs in an app. You will create the data layer and user interface, and work with Core Data to save user data. ", "Proximity Reminders", "Create an iOS app that provides location-specific reminders: have your phone remind you to pick up milk when you enter the market, or remind you to lock the door when you leave your house. Use Core Data to save the reminders and Core Location for geo-fencing and reminder notifications.", "NASApp", "In this final capstone project, build an iOS app in Swift that uses the NASA API to retrieve and display imagery from Mars or Earth. Use UICollectionViews, ScrollViews, Animation, Unit Testing and Error Handling to build a strong app for your portfolio. Show off your all your iOS development skills!!"];
 
-//----- Start of functionality
+//----- Start of comparison functionality
 // select DOM elements & create empty variables needed
-let main = document.querySelector("main");
+const main = document.querySelector("main");
 const header = document.querySelector("header");
-const originalMainHTML = main.innerHTML;
 const chooseButtons = Array.from(document.querySelectorAll("button.td"));
 const exploreButton = (document.querySelector("button.explore"));
 const resetButton = (document.querySelector("button.reset"));
@@ -99,13 +99,8 @@ const selectTD = function() {
     exploreButton.classList.remove("transparent");
     exploreButton.addEventListener("click", runComparisons);
     this.classList.add("selected");
-    for (button of chooseButtons) {
-    button.removeEventListener("click", selectTD);
-    }
-    let disabledButtons = document.querySelectorAll("button.td:not(.selected)");
-    for (button of disabledButtons) {
-    button.classList.add("transparent");
-    }
+    chooseButtons.forEach(item => item.removeEventListener("click", selectTD));
+    document.querySelectorAll("button.td:not(.selected)").forEach(item => item.classList.add("transparent"));
   }
 }
 
@@ -182,6 +177,10 @@ const makeTd2Projects = () => {
 
 //  ----- compare the techdegrees -----
 const compareTd1Td2 = () => {
+  makeTd1Courses();
+  makeTd1Projects();
+  makeTd2Courses();
+  makeTd2Projects();
   let courseComparison = td1Courses.slice();
   for (item of td2Courses) {
     if (courseComparison.findIndex(course => course.name === item.name) != -1) {
@@ -191,7 +190,6 @@ const compareTd1Td2 = () => {
       courseComparison.push(item);
     }
   }
-
   let projectComparison = td1Projects.slice();
   for (item of td2Projects) {
     if (projectComparison.findIndex(project => project.name === item.name) != -1) {
@@ -208,6 +206,7 @@ const compareTd1Td2 = () => {
 
 // --- display the comparison in the UI
 const addListItems = () => {
+    compareTd1Td2();
     courseTd1.childNodes[1].childNodes[1].innerText = `${td1}`;
     courseTd12.childNodes[1].childNodes[1].innerText = `${td1} & ${td2}`;
     courseTd2.childNodes[1].childNodes[1].innerText = `${td2}`;
@@ -223,7 +222,6 @@ const addListItems = () => {
       courseTd2.insertAdjacentHTML('beforeend', html);
     }
   }
-
   projectTd1.childNodes[1].childNodes[1].innerText = `${td1}`;
   projectTd12.childNodes[1].childNodes[1].innerText = `${td1} & ${td2}`;
   projectTd2.childNodes[1].childNodes[1].innerText = `${td2}`;
@@ -243,13 +241,9 @@ const addListItems = () => {
 
 // run the comparison when 'explore' is clicked
 const runComparisons = () => {
-  makeTd1Courses();
-  makeTd1Projects();
-  makeTd2Courses();
-  makeTd2Projects();
-  compareTd1Td2();
   addListItems();
   exploreButton.removeEventListener("click",runComparisons);
+  exploreButton.classList.add("transparent");
   main.classList.remove("hide");
   main.scrollIntoView({behavior: "smooth", block: "start"});
 }
@@ -263,37 +257,27 @@ const reset = () => {
   }
   for (button of chooseButtons) {
     button.addEventListener("click", selectTD);
-    button.classList.remove("selected");
-    button.classList.remove("disabled");
+    button.classList.remove("selected", "disabled", "transparent");
   }
   td1Courses = td1Projects = td1 = td2Courses = td2Projects = td2 = undefined;
   main.classList.add("hide");
   header.scrollIntoView({behavior: "smooth", block: "start"});
-  exploreButton.classList.add("transparent");
 }
 
 // --- show extra info in UI
 // show course type
 const showCourseType = () => {
-  const courses = Array.from(document.querySelectorAll(".course-type"));
-   for (item of courses) {
-     item.classList.toggle("hide");
-   }
+  (document.querySelectorAll(".course-type")).forEach(item => item.classList.toggle("hide"));
 }
 
 // show project descriptions
 const showProjectDescriptions = () => {
-  const projects = Array.from(document.querySelectorAll(".project-desc"));
-   for (item of projects) {
-     item.classList.toggle("hide");
-   }
+  (document.querySelectorAll(".project-desc")).forEach(item => item.classList.toggle("hide"));
 }
 
-// initialise
+// initialise!
 (() => {
-  for (button of chooseButtons) {
-  button.addEventListener("click", selectTD);
-  }
+  chooseButtons.forEach(item => item.addEventListener("click", selectTD));
   exploreButton.addEventListener("click", runComparisons);
   resetButton.addEventListener("click", reset);
   courseTypeButton.addEventListener("click", showCourseType);
