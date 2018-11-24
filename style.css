@@ -179,7 +179,7 @@ li p {
   text-align: left;
 }
 
-li p.course-type, li p.project-desc {
+li p.courses-details, li p.projects-details {
   font-size: 0.8em;
   margin-top: 5px;
   border-top: 1px solid #50cf8855;
