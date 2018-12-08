@@ -82,7 +82,7 @@ const formatData = (td, courseProject) => {
 
 // find common data for td1 & td2
 const findCommon = (courseProject) => {
-  let holderArray = comparison['td1'][courseProject].slice();
+  let holderArray = [...comparison['td1'][courseProject]];
   comparison['td2'][courseProject].forEach(item => {
     let found = holderArray.some(arrayItem => arrayItem.name === item.name);
     let index = holderArray.findIndex(arrayItem => arrayItem.name === item.name);
